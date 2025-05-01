@@ -1,0 +1,10 @@
+.env
+node_modules/
+
+# 이미지 파일
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
+*.webp

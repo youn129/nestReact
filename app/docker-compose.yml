@@ -1,0 +1,48 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: wjddbstlr1/backend:1
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development # 개발 환경 설정
+      - MONGO_ATLAS_URI=${MONGO_ATLAS_URI}
+      - MONGO_LOCAL_URI=${MONGO_LOCAL_URI}
+    depends_on:
+      - mongo
+    networks:
+      - mynet1
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: wjddbstlr1/frontend:1
+    ports:
+      - "3001:80"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - mynet1
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: youn129
+      MONGO_INITDB_ROOT_PASSWORD: Kk90109324!
+    networks:
+      - mynet1
+    volumes:
+      - mongo_data:/data/db
+
+networks:
+  mynet1:
+    driver: bridge
+
+volumes:
+  mongo_data:
