@@ -14,9 +14,7 @@ npm run start
 프론트엔드: http://localhost:3000
 
 2. Docker로 전체 서비스 실행
-bash
-복사
-편집
+
 cd app
 docker-compose up --build
 프론트엔드: http://localhost:3001
