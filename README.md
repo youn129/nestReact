@@ -69,7 +69,21 @@
 ## 실행방법
 
 ```bash
-# 루트 경로에서 실행
+# 1. 백엔드 및 프론트엔드 서버 실행
+
 $ cd app
+$ npm run start
+# → NestJS 백엔드와 React 프론트엔드가 실행됩니다.
+
+# 2. (별도 터미널에서) 가상환경 활성화 후 테스트 실행
+
+# 루트에서 가상환경 활성화
+$ .\.venv\Scripts\activate.bat
+
+# app 디렉토리 진입
+$ cd app
+
+# pytest 테스트 실행
 $ pytest tests/python/test_search.py
+# → 실행되고 있는 백엔드/프론트엔드의 브라우저에 진입하고 자동화 테스트 실행됩니다.
 ```
