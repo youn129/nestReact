@@ -8,3 +8,13 @@ node_modules/
 *.gif
 *.svg
 *.webp
+
+# Python
+__pycache__/
+*.py[cod]
+
+# pytest
+.pytest_cache/
+
+# IDE
+.vscode/
