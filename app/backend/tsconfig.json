@@ -19,5 +19,5 @@
     "noFallthroughCasesInSwitch": false,
     "typeRoots": ["./src/types", "./node_modules/@types"]
   },
-  "include": ["src/**/*.ts", "src/types/**/*.d.ts"]
+  "include": ["src/**/*.ts", "src/types/**/*.d.ts", "test/**/*.ts"]
 }
