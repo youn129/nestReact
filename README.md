@@ -17,20 +17,21 @@
 - Postman으로 API 통신 흐름 및 오류 상황 테스트
 - NestJS + MongoDB + React로 전체 서비스 구성
 - Pytest 기반 구조화된 테스트 코드 작성
+- Jest + Supertest 기반 E2E 및 단위 테스트 작성 (NestJS)
 - Docker 및 Nginx 환경 연동 실습
 
 ---
 
 ## Tech
 
-| sec             | tech                               |
-| --------------- | ---------------------------------- |
-| **Frontend**    | React, TypeScript, Bootstrap       |
-| **Backend**     | NestJS, TypeScript, Axios          |
-| **Database**    | MongoDB Atlas                      |
-| **Test Tools**  | Pytest, Selenium (Python), Postman |
-| **Infra/CI/CD** | Docker, Docker Compose, Nginx      |
-| **etc.**        | REST API, OAuth2, 환경변수 분리    |
+| sec             | tech                                                |
+| --------------- | --------------------------------------------------- |
+| **Frontend**    | React, TypeScript, Bootstrap                        |
+| **Backend**     | NestJS, TypeScript, Axios                           |
+| **Database**    | MongoDB Atlas                                       |
+| **Test Tools**  | Jest, Supertest, Pytest, Selenium (Python), Postman |
+| **Infra/CI/CD** | Docker, Docker Compose, Nginx                       |
+| **etc.**        | REST API, OAuth2, 환경변수 분리                     |
 
 ---
 
@@ -54,15 +55,17 @@
 
 ---
 
-## 테스트 코드(tests폴더) 설명
+## 테스트 코드 설명
 
-| tests                  | description                                                  |
-| ---------------------- | ------------------------------------------------------------ |
-| `test_search.py`       | React 기반 상품 검색 페이지에 대한 Selenium 자동화 테스트    |
-| Page Object Model      | 테스트 코드와 DOM 로케이터 분리 → `home_page.py` 모듈로 구성 |
-| Pytest 기반 구조화     | `pytest`로 간결한 구조 및 fixture 기반 실행 관리             |
-| 예외 시 Assertion 처리 | `assert` 문 및 메시지 기반으로 실패 원인 명확화              |
-| Postman 테스트         | OAuth2 token 발급, API 흐름 검증                             |
+| tests                  | description                                                                |
+| ---------------------- | -------------------------------------------------------------------------- |
+| `test_search.py`       | React 기반 상품 검색 페이지에 대한 Selenium 자동화 테스트                  |
+| Page Object Model      | 테스트 코드와 DOM 로케이터 분리 → `home_page.py` 모듈로 구성               |
+| Pytest 기반 구조화     | `pytest`로 간결한 구조 및 fixture 기반 실행 관리                           |
+| 예외 시 Assertion 처리 | `assert` 문 및 메시지 기반으로 실패 원인 명확화                            |
+| Postman 테스트         | OAuth2 token 발급, API 흐름 검증                                           |
+| Jest 단위 테스트       | ebay-token.service.ts의 accessToken 로직에 대한 mock 기반 단위 테스트 작성 |
+| Jest E2E 테스트        | eBay API 실제 호출 기반 전체 흐름 테스트                                   |
 
 ---
 
@@ -86,4 +89,10 @@ $ cd app
 # pytest 테스트 실행
 $ pytest tests/python/test_search.py
 # → 실행되고 있는 백엔드/프론트엔드의 브라우저에 진입하고 자동화 테스트 실행됩니다.
+
+# 3. 단위 테스트 / E2E 테스트 실행
+
+$ cd app/backend
+$ npm run test          # → Jest 단위 테스트 실행
+$ npm run test:e2e      # → E2E 테스트 실행
 ```
