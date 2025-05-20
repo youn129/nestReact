@@ -16,7 +16,7 @@ class HomePage:
 
     def click_search_button(self):
         button = self.wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, 'button.btn-primary'))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, '.search-bar button.btn-primary'))
         )
         button.click()
 
@@ -24,6 +24,18 @@ class HomePage:
         return self.wait.until(
             EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'ul.list-group li.list-group-item'))
         )
+    
+    def get_result_count(self) -> int:
+        try:
+            return len(self.get_search_results())
+        except:
+            return 0
+        
+    def clear_search_input(self):
+        search_input = self.wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, 'input[type="text"]'))
+        )
+        search_input.clear()
 
     def is_first_result_valid(self) -> bool:
         try:

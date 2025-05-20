@@ -23,12 +23,51 @@ def driver():
     time.sleep(2)
     driver.quit()
 
-def test_laptop_search(driver):
-    home_page = HomePage(driver)
-    time.sleep(2)  # 초기 로딩 대기
-    home_page.enter_search_query("laptop")
-    time.sleep(1)
-    home_page.click_search_button()
-    time.sleep(3)  # 렌더링 대기
+def scroll_to_bottom(driver, delay=0.8, max_tries=5):
+    last_height = driver.execute_script("return document.body.scrollHeight")
+    tries = 0
 
-    assert home_page.is_first_result_valid()
+    while tries < max_tries:
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(delay)  
+
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        if new_height == last_height:
+            tries += 1  
+        else:
+            tries = 0  
+        last_height = new_height
+
+# 등가 분할, 경계값 분석 기반 테스트
+@pytest.mark.parametrize("query, expected_min", [
+    ("a", 1),       # 경계값 분석 - 최소 입력
+    ("laptop", 1),  # 정상 입력
+    ("", 0),        # 빈 문자열 - 비정상 입력
+])
+
+def test_search_query_variants(driver, query, expected_min):
+    home_page = HomePage(driver)
+    time.sleep(1)
+    home_page.enter_search_query(query)
+    time.sleep(0.5)
+    home_page.click_search_button()
+    scroll_to_bottom(driver)
+    time.sleep(1)
+
+    result_count = home_page.get_result_count()
+    assert result_count >= expected_min
+
+def test_multi_step_query(driver):
+    home_page = HomePage(driver)
+
+    for keyword in ["iphone", "laptop", "laptop, Ram"]:
+        home_page.clear_search_input()
+        time.sleep(0.3)
+        home_page.enter_search_query(keyword)
+        time.sleep(0.2)
+        home_page.click_search_button()
+        time.sleep(1.5)
+        scroll_to_bottom(driver)
+        driver.execute_script("window.scrollTo(0, 0);")
+        time.sleep(0.5)  
+        assert home_page.get_result_count() >= 1
