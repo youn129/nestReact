@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [auctionItems, setAuctionItems] = useState<any[]>([]);
-  const [query, setQuery] = useState<string>("laptop");
+  const [query, setQuery] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
