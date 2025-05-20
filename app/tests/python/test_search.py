@@ -1,10 +1,15 @@
 import sys
-import os
 import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+LOCAL = os.getenv("LOCAL")
 
 # 경로 설정
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
@@ -18,7 +23,7 @@ def driver():
 
     service = Service()
     driver = webdriver.Chrome(service=service, options=options)
-    driver.get("http://localhost:3000")
+    driver.get(LOCAL)
     yield driver  # 테스트 함수에게 driver 인스턴스를 넘김
     time.sleep(2)
     driver.quit()
