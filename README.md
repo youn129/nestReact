@@ -19,6 +19,7 @@
 - Pytest 기반 구조화된 테스트 코드 작성
 - Jest + Supertest 기반 E2E 및 단위 테스트 작성 (NestJS)
 - Docker 및 Nginx 환경 연동 실습
+- 실제 채용 플랫폼(Saramin) 기반 로그인/이력서 자동화 시나리오 구현
 
 ---
 
@@ -47,6 +48,8 @@
 - Postman을 활용하여 API 정상/예외 흐름 테스트를 검증했습니다.
 - Selenium + Pytest로 **token 발급으로 가져온 eBay API UI를 토대로 사용자 검색 테스트 자동화 구현**을 했습니다.
 - `Page Object Model`을 도입했습니다.
+- **Pytest의 파라미터화 기능**을 활용해 입력값에 따른 테스트 케이스 분기 적용했습니다.
+- **실제 채용 플랫폼(Saramin)**에 로그인하고 특정 이력서를 클릭하는 시나리오를 자동화 구현했습니다.
 
 ### Docker + Nginx 환경 연동
 
@@ -57,15 +60,16 @@
 
 ## 테스트 코드 설명
 
-| tests                  | description                                                                |
-| ---------------------- | -------------------------------------------------------------------------- |
-| `test_search.py`       | React 기반 상품 검색 페이지에 대한 Selenium 자동화 테스트                  |
-| Page Object Model      | 테스트 코드와 DOM 로케이터 분리 → `home_page.py` 모듈로 구성               |
-| Pytest 기반 구조화     | `pytest`로 간결한 구조 및 fixture 기반 실행 관리                           |
-| 예외 시 Assertion 처리 | `assert` 문 및 메시지 기반으로 실패 원인 명확화                            |
-| Postman 테스트         | OAuth2 token 발급, API 흐름 검증                                           |
-| Jest 단위 테스트       | ebay-token.service.ts의 accessToken 로직에 대한 mock 기반 단위 테스트 작성 |
-| Jest E2E 테스트        | eBay API 실제 호출 기반 전체 흐름 테스트                                   |
+| tests                     | description                                                                 |
+| ------------------------- | --------------------------------------------------------------------------- |
+| `test_search.py`          | React 기반 상품 검색 페이지에 대한 Selenium 자동화 테스트                   |
+| Page Object Model         | 테스트 코드와 DOM 로케이터 분리 → `home_page.py` 모듈로 구성                |
+| Pytest 기반 구조화        | 다양한 검색어(`a`, `laptop`, 빈 문자열 등)에 대한 테스트 자동화 적용        |
+| 예외 시 Assertion 처리    | `assert` 문 및 메시지 기반으로 실패 원인 명확화                             |
+| `test_login.py`           | 사람인(Saramin) 사이트에서 카카오 로그인 후 이력서 목록 접근 및 클릭 테스트 |
+| `saramIn/` Page 모듈 분리 | `LoginPage`, `MainPage`, `ResumePage` 클래스로 분리해 유지보수 용이성 확보  |
+| Jest 단위 테스트          | ebay-token.service.ts의 accessToken 로직에 대한 mock 기반 단위 테스트 작성  |
+| Jest E2E 테스트           | eBay API 실제 호출 기반 전체 흐름 테스트                                    |
 
 ---
 
@@ -88,7 +92,8 @@ $ cd app
 
 # pytest 테스트 실행
 $ pytest tests/python/test_search.py
-# → 실행되고 있는 백엔드/프론트엔드의 브라우저에 진입하고 자동화 테스트 실행됩니다.
+$ pytest tests/python/test_login.py
+# → 백엔드/프론트엔드 실행 상태에서 자동화 브라우저 테스트 진행됩니다.
 
 # 3. 단위 테스트 / E2E 테스트 실행
 
